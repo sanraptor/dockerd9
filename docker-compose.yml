@@ -1,0 +1,40 @@
+version: "1"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: drupal_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: dockerd9password
+      MYSQL_DATABASE: dockerd9
+      MYSQL_USER: dockerd9user
+      MYSQL_PASSWORD: dockerd9password
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+  drupal:
+    build:
+      context: .
+    depends_on:
+      - mysql
+    ports:
+      - 80:80
+    environment:
+      MYSQL_CREDENTIALS: |-
+        {
+          "MYSQL_DATABASE_NAME": "dockerd9",
+          "MYSQL_USER": "dockerd9user",
+          "MYSQL_PASSWORD": "dockerd9password",
+          "MYSQL_URL": "mysql",
+          "MYSQL_PORT": "3306"
+        }
+    volumes:
+      - files:/web/sites/default/files
+      - ./web/config:/web/config
+      - ./web/modules/custom:/web/modules/custom
+      - ./web/themes/custom:/web/themes/custom
+volumes:
+  dbdata:
+  files:
