@@ -1,0 +1,6 @@
+web/modules/contrib
+web/themes/contrib
+web/logs
+web/core
+vendor
+.env
