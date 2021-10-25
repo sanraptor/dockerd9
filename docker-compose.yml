@@ -37,14 +37,6 @@ services:
     ports:
       - 80:80
     environment:
-      # MYSQL_CREDENTIALS: |-
-      #   {
-      #     "MYSQL_DATABASE_NAME": "dockerd9",
-      #     "MYSQL_USER": "dockerd9user",
-      #     "MYSQL_PASSWORD": "dockerd9password",
-      #     "MYSQL_URL": "mysql",
-      #     "MYSQL_PORT": "3306"
-      #   }
       HOST: "${DBH}"
       DBASE: "${DB}"
       USER: "${DBU}"

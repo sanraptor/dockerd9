@@ -812,12 +812,22 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 //   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
 //   'driver' => 'mysql',
 // );
+// $databases['default']['default'] = array (
+//   'database' => $_ENV['DBASE'],
+//   'username' => $_ENV['USER'],
+//   'password' => $_ENV['PASS'],
+//   'prefix' => '',
+//   'host' => $_ENV['HOST'],
+//   'port' => '3306',
+//   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+//   'driver' => 'mysql',
+// );
 $databases['default']['default'] = array (
-  'database' => $_ENV['DBASE'],
-  'username' => $_ENV['USER'],
-  'password' => $_ENV['PASS'],
+  'database' => 'dockerd9',
+  'username' => 'dockerd9user',
+  'password' => 'dockerd9password',
   'prefix' => '',
-  'host' => $_ENV['HOST'],
+  'host' => 'mysql',
   'port' => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
