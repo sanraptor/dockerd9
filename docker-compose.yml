@@ -1,4 +1,4 @@
-version: "1"
+version: "3"
 
 services:
   mysql:
@@ -6,14 +6,29 @@ services:
     container_name: drupal_db
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: dockerd9password
-      MYSQL_DATABASE: dockerd9
-      MYSQL_USER: dockerd9user
-      MYSQL_PASSWORD: dockerd9password
+      MYSQL_ROOT_PASSWORD: "${DBP}"
+      MYSQL_DATABASE: "${DB}"
+      MYSQL_USER: "${DBU}"
+      MYSQL_PASSWORD: "${DBP}"
     ports:
       - "3306:3306"
     volumes:
+      - ./sql:/docker-entrypoint-initdb.d
       - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - mysql
+    environment:
+      PMA_HOST: "${DBH}"
+      # PMA_USER: "${DBU}"
+      # PMA_PASSWORD: "${DBP}"
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8080:80
   drupal:
     build:
       context: .
@@ -22,19 +37,23 @@ services:
     ports:
       - 80:80
     environment:
-      MYSQL_CREDENTIALS: |-
-        {
-          "MYSQL_DATABASE_NAME": "dockerd9",
-          "MYSQL_USER": "dockerd9user",
-          "MYSQL_PASSWORD": "dockerd9password",
-          "MYSQL_URL": "mysql",
-          "MYSQL_PORT": "3306"
-        }
+      # MYSQL_CREDENTIALS: |-
+      #   {
+      #     "MYSQL_DATABASE_NAME": "dockerd9",
+      #     "MYSQL_USER": "dockerd9user",
+      #     "MYSQL_PASSWORD": "dockerd9password",
+      #     "MYSQL_URL": "mysql",
+      #     "MYSQL_PORT": "3306"
+      #   }
+      HOST: "${DBH}"
+      DBASE: "${DB}"
+      USER: "${DBU}"
+      PASS: "${DBP}"
     volumes:
-      - files:/web/sites/default/files
-      - ./web/config:/web/config
-      - ./web/modules/custom:/web/modules/custom
-      - ./web/themes/custom:/web/themes/custom
+      - files:/app/web/sites/default/files
+      - ./app/web/config:/web/config
+      - ./app/web/modules/custom:/web/modules/custom
+      - ./app/web/themes/custom:/web/themes/custom
 volumes:
   dbdata:
   files:
