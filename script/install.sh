@@ -1,25 +1,5 @@
 #!/usr/bin/env bash
-# current_dir=$(pwd)
-# script_dir=$(dirname $0)
 
-# if [ $script_dir = '.' ]
-# then
-# script_dir="$current_dir"
-# fi
-# BASEDIR=$(dirname "$0");
-# echo "$BASEDIR";
-# echo "$script_dir";
-# DRUSH="var/www/html/vendor/bin"
-# BASE_DIR="$(cd "$DRUSH"; pwd)";
-# echo "BASE_DIR => $BASE_DIR"
-# cmd="ls -al";
-# bash -c "$cmd"
-
-# exit 1;
-
-# DRUPAL="/var/www/html/vendor/drupal --root=/app";
-# DRUSH="$HOME/vendor/bin/drush --root=/web";
-# DRUPAL="/app/vendor/bin/drupal --root=/app";
 HOSTNAME=$(eval drush status --field db-hostname);
 USERNAME=$(eval drush status --field db-username);
 PASSWORD=$(eval drush status --field db-password);
